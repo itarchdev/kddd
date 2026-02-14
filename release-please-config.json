@@ -1,0 +1,19 @@
+{
+  "packages": {
+    "fts": {
+      "release-type": "kotlin",
+      "package-name": "fts",
+      "changelog-path": "fts/CHANGELOG.md"
+    },
+    "ksp-processor": {
+      "release-type": "kotlin",
+      "package-name": "ksp-processor",
+      "changelog-path": "ksp-processor/CHANGELOG.md"
+    }
+  },
+  "plugins": [
+    {
+      "type": "sentence-case"
+    }
+  ]
+}

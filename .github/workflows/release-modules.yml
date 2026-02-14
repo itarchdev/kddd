@@ -1,0 +1,84 @@
+name: Release Please System
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      # Эти выходы нужны, чтобы понять, был ли именно факт МЕРЖА релиз-PR
+      releases_created: ${{ steps.release.outputs.releases_created }}
+      paths_released: ${{ steps.release.outputs.paths_released }}
+    steps:
+      - uses: google-github-actions/release-please-action@v4
+        id: release
+        with:
+          # Для создания PR и триггера последующих экшенов лучше использовать PAT
+          token: ${{ secrets.MY_RELEASE_PAT }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          # Помогает корректно определять компоненты в монорепозитории. Добавляет в релизный тег
+          # префикс названия модуля
+          # Auto-merge требует, чтобы в настройках репозитория была включена опция "Allow auto-merge" (Settings > General > Pull Requests).
+          include-component-in-tag: true
+
+  publish:
+    needs: release-please
+    # Запускается только если Release Please создал тег (т.е. PR был замержен)
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Publish Modules
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
+          # Превращаем JSON-строку со списком путей в массив для удобства
+          PATHS: ${{ needs.release-please.outputs.paths_released }}
+        run: |
+          # Проверяем, какой модуль был выпущен, и деплоим его
+          if [[ $PATHS == *"fts"* ]]; then
+            ./gradlew :fts:pTMC --no-configuration-cache
+          fi
+          
+          if [[ $PATHS == *"ksp-processor"* ]]; then
+            ./gradlew :ksp-processor:pTMC --no-configuration-cache
+          fi
+
+  sync-to-main:
+    needs: publish
+    runs-on: ubuntu-latest
+    if: success() # Выполнить только если публикация прошла успешно
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.MY_RELEASE_PAT }}
+
+      - name: Merge dev into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+          # Переключаемся на main и вмерживаем dev
+          git checkout main
+          git merge origin/dev --ff-only || git merge origin/dev --no-ff -m "chore: sync dev to main [skip ci]"
+        
+          # Пушим изменения в main
+          git push origin main
