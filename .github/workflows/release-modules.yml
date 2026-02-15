@@ -57,7 +57,7 @@ jobs:
           fi
           
           if [[ $PATHS == *"ksp-processor"* ]]; then
-            ./gradlew :ksp-processor:pTMC --no-configuration-cache
+            # ./gradlew :ksp-processor:pTMC --no-configuration-cache
           fi
 
   sync-to-main:
