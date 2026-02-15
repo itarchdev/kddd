@@ -25,6 +25,52 @@ jobs:
           # Auto-merge требует, чтобы в настройках репозитория была включена опция "Allow auto-merge" (Settings > General > Pull Requests).
           include-component-in-tag: true
 
+      - name: Update gradle.properties in Release PR
+        if: ${{ steps.release.outputs.pr }}
+        run: |
+          # 1. Переключаемся на ветку PR
+          git checkout ${{ steps.release.outputs.pr_branch }}
+
+          # 2. Получаем список путей, которые Release Please пометил для релиза
+          # Используем JSON массив из outputs.paths_released
+          RELEASED_PATHS='${{ steps.release.outputs.paths_released }}'
+          echo "Modules to be released: $RELEASED_PATHS"
+
+          # 3. Проходим циклом по каждому пути из списка
+          echo "$RELEASED_PATHS" | jq -r '.[]' | while read -r path; do
+          
+            # Извлекаем версию именно для этого пути из манифеста
+            NEW_VERSION=$(jq -r ".\"$path\"" .release-please-manifest.json)
+          
+            # Определяем путь к gradle.properties (учитываем корень проекта)
+            if [ "$path" == "." ]; then
+              FILE_PATH="gradle.properties"
+            else
+              FILE_PATH="$path/gradle.properties"
+            fi
+               
+            if [ -f "$FILE_PATH" ]; then
+              echo "Updating $FILE_PATH to $NEW_VERSION (module: $path)"
+              sed -i "s/^version[[:space:]]*=.*/version=$NEW_VERSION/" "$FILE_PATH"
+            else
+              echo "Skipping $path: $FILE_PATH not found"
+            fi
+          done
+
+          # 4. Коммитим изменения в ветку PR
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+               
+          if ! git diff --exit-code; then
+            git add .
+            git commit -m "chore: sync gradle.properties for released modules"
+            git push origin ${{ steps.release.outputs.pr_branch }}
+          else
+            echo "Everything is already in sync."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
+
   publish:
     needs: release-please
     # Запускается только если Release Please создал тег (т.е. PR был замержен)
