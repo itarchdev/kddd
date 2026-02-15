@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/itarchdev/kddd/compare/fts-v1.0.2...fts-v1.0.3) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** Add some fake code for testing publish ([f542518](https://github.com/itarchdev/kddd/commit/f542518b3c14f99874812b0a899bff081bc937b5))
+
 ## [1.0.2](https://github.com/itarchdev/kddd/compare/fts-v1.0.1...fts-v1.0.2) (2026-02-15)
 
 
