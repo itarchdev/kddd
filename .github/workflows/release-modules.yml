@@ -36,13 +36,18 @@ jobs:
     if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.MY_RELEASE_PAT }}
 
       - name: Update gradle.properties after release
         run: |
           # Настраиваем конфиг гита внутри раннера
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout dev
           
           # 1. Получаем список путей, которые были реально выпущены
           RELEASED_PATHS='${{ needs.release-please.outputs.paths_released }}'
