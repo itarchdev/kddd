@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/itarchdev/kddd/compare/fts-v1.0.3...fts-v1.0.4) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** Should be 1.0.4 and change gradle.properties ([a53fbae](https://github.com/itarchdev/kddd/commit/a53fbae011799533b689dd495773f3ccea4cd37d))
+
 ## [1.0.3](https://github.com/itarchdev/kddd/compare/fts-v1.0.2...fts-v1.0.3) (2026-02-15)
 
 
