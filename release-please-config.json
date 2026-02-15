@@ -4,16 +4,30 @@
       "release-type": "simple",
       "package-name": "fts",
       "changelog-path": "CHANGELOG.md",
-      "version-file": "version.txt",
-      "extra-files": ["gradle.properties"],
+      "extra-files": [
+        {
+          "type": "regex",
+          "path": "gradle.properties",
+          "patterns": [
+            "version\\s*=\\s*\\d+\\.\\d+\\.\\d+"
+          ]
+        }
+      ],
       "include-component-in-tag": true
     },
     "ksp-processor": {
       "release-type": "simple",
       "package-name": "ksp-processor",
       "changelog-path": "CHANGELOG.md",
-      "version-file": "version.txt",
-      "extra-files": ["gradle.properties"],
+      "extra-files": [
+        {
+          "type": "regex",
+          "path": "gradle.properties",
+          "patterns": [
+            "version\\s*=\\s*\\d+\\.\\d+\\.\\d+"
+          ]
+        }
+      ],
       "include-component-in-tag": true
     }
   },

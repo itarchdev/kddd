@@ -18,7 +18,7 @@ mavenPublishing {
     coordinates("$group", name, "$version")
     // publishToMavenCentral(SonatypeHost.DEFAULT)
     // or when publishing to https://central.sonatype.com/
-    publishToMavenCentral()
+    publishToMavenCentral(automaticRelease = true)
     signAllPublications()
 }
 
