@@ -45,7 +45,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
           # 1. Получаем список путей, которые были реально выпущены
-          RELEASED_PATHS='${{ needs.release.outputs.paths_released }}'
+          RELEASED_PATHS='${{ needs.release-please.outputs.paths_released }}'
           
           # 3. Проходим циклом по каждому пути из списка
           echo "$RELEASED_PATHS" | jq -r '.[]' | while read -r path; do
