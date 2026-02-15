@@ -39,28 +39,28 @@ jobs:
           
           # 1. Переключаемся на ветку PR
           git checkout ${{ steps.release.outputs.pr_branch }}
-
-          # 2. Получаем список путей, которые Release Please пометил для релиза
-          # Используем JSON массив из outputs.paths_released
-          RELEASED_PATHS='${{ steps.release.outputs.paths_released }}'
-          echo "Modules to be released: $RELEASED_PATHS"
-
+          
+          # 2. Извлекаем ВСЕ пути из манифеста, которые есть в этом PR
+          # jq выберет все ключи (пути модулей)
+          MODULES=$(jq -r 'keys | .[]' .release-please-manifest.json)
+          
           # 3. Проходим циклом по каждому пути из списка
-          echo "$RELEASED_PATHS" | jq -r '.[]' | while read -r path; do
-          
-            # Извлекаем версию именно для этого пути из манифеста
+          for path in $MODULES; do
+            # Получаем версию для этого пути
             NEW_VERSION=$(jq -r ".\"$path\"" .release-please-manifest.json)
-          
-            # Определяем путь к gradle.properties (учитываем корень проекта)
+  
+            # Определяем путь к файлу
             if [ "$path" == "." ]; then
               FILE_PATH="gradle.properties"
             else
               FILE_PATH="$path/gradle.properties"
             fi
-               
+  
+            # Обновляем только если файл существует
             if [ -f "$FILE_PATH" ]; then
-              echo "Updating $FILE_PATH to $NEW_VERSION (module: $path)"
+              echo "Updating $FILE_PATH to $NEW_VERSION"
               sed -i "s/^version[[:space:]]*=.*/version=$NEW_VERSION/" "$FILE_PATH"
+            fi
             else
               echo "Skipping $path: $FILE_PATH not found"
             fi
