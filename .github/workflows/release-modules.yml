@@ -53,11 +53,11 @@ jobs:
         run: |
           # Проверяем, какой модуль был выпущен, и деплоим его
           if [[ $PATHS == *"fts"* ]]; then
-            ./gradlew :fts:pTMC --no-configuration-cache
+            ./gradlew :fts:pTMC
           fi
           
           if [[ $PATHS == *"ksp-processor"* ]]; then
-            # ./gradlew :ksp-processor:pTMC --no-configuration-cache
+            # ./gradlew :ksp-processor:pTMC
             echo "fake publishing"
           fi
 
