@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.4](https://github.com/itarchdev/kddd/compare/fts-v1.0.3...fts-v1.0.4) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** Auto publish 1.0.4 ([0a2c226](https://github.com/itarchdev/kddd/commit/0a2c226ef0973523d0cb87818fb10f3005f97dd1))
+* **fts:** One more try by script -&gt; 1.0.4 ([c22c245](https://github.com/itarchdev/kddd/commit/c22c24575e7769405122b347f59f373e659ef821))
+* **fts:** One more try: should autopublish with version 1.0.4 ([251abcd](https://github.com/itarchdev/kddd/commit/251abcdf6bc315af7cecc2f732a201c9b9bb9646))
+* **fts:** Should autopublish with version 1.0.4 ([4c125ba](https://github.com/itarchdev/kddd/commit/4c125ba13cac981ef83f5dd2a881200e45bf225c))
+* **fts:** Should be 1.0.4 and change gradle.properties ([a53fbae](https://github.com/itarchdev/kddd/commit/a53fbae011799533b689dd495773f3ccea4cd37d))
+* **fts:** Try by script -&gt; 1.0.4 ([12229e2](https://github.com/itarchdev/kddd/commit/12229e215739b794645b40003ded0c987cbff161))
+
 ## [1.0.3](https://github.com/itarchdev/kddd/compare/fts-v1.0.2...fts-v1.0.3) (2026-02-15)
 
 
