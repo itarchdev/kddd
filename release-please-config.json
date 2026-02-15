@@ -1,14 +1,18 @@
 {
   "packages": {
     "fts": {
-      "release-type": "kotlin",
+      "release-type": "simple",
       "package-name": "fts",
-      "changelog-path": "fts/CHANGELOG.md"
+      "changelog-path": "fts/CHANGELOG.md",
+      "version-file": "fts/gradle.properties",
+      "include-component-in-tag": true
     },
     "ksp-processor": {
-      "release-type": "kotlin",
+      "release-type": "simple",
       "package-name": "ksp-processor",
-      "changelog-path": "ksp-processor/CHANGELOG.md"
+      "changelog-path": "ksp-processor/CHANGELOG.md",
+      "version-file": "ksp-processor/gradle.properties",
+      "include-component-in-tag": true
     }
   },
   "plugins": [
