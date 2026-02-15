@@ -82,5 +82,3 @@ public annotation class Neutral(
 @Retention(AnnotationRetention.BINARY)
 @MustBeDocumented
 public annotation class OptIn(val markerClass: String)
-
-public val test: String = "for test"
