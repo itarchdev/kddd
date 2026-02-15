@@ -25,6 +25,12 @@ jobs:
           # Auto-merge требует, чтобы в настройках репозитория была включена опция "Allow auto-merge" (Settings > General > Pull Requests).
           include-component-in-tag: true
 
+      - name: Enable auto-merge for Release Please PR
+        if: ${{ steps.release.outputs.pr }}
+        run: gh pr merge "${{ steps.release.outputs.pr_number }}" --auto --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
+
   publish:
     needs: release-please
     # Запускается только если Release Please создал тег (т.е. PR был замержен)
