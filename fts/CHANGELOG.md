@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.2](https://github.com/itarchdev/kddd/compare/fts-v1.0.1...fts-v1.0.2) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** Add POM properties ([dac2754](https://github.com/itarchdev/kddd/commit/dac27541e54156dc2b8d4716e5fc9aea64c65275))
+* **fts:** Should publish new fts version ([48fbba1](https://github.com/itarchdev/kddd/commit/48fbba1539076f66194f9cade5942a98d993c950))
+
 ## [1.0.1](https://github.com/itarchdev/kddd/compare/fts-v1.0.0...fts-v1.0.1) (2026-02-15)
 
 
