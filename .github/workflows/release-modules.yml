@@ -63,6 +63,7 @@ jobs:
               sed -i "s/^\(version[[:space:]]*=[[:space:]]*\).*/\1$NEW_VERSION/" "$FILE_PATH"
               echo "Content after sed:"
               grep "^version" "$FILE_PATH"
+              git add "$FILE_PATH"
             else
               echo "Skipping $path: $FILE_PATH not found"
             fi
@@ -77,8 +78,7 @@ jobs:
 
           # 4. Коммитим изменения в ветку PR
           if ! git diff --cached --exit-code; then
-            git add "$FILE_PATH"
-            git commit -m "chore: update gradle.properties after release [skip ci]"
+            git commit -am "chore: update gradle.properties after release [skip ci]"
             git push origin ${{ github.ref_name }}          
           else
             echo "No changes to commit in gradle.properties. Everything is already in sync."
