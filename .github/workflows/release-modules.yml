@@ -40,6 +40,9 @@ jobs:
           # 1. Переключаемся на ветку PR
           git checkout ${{ steps.release.outputs.pr_branch }}
           
+          echo "--- Current Manifest Content ---"
+          cat .release-please-manifest.json
+          
           # 2. Извлекаем ВСЕ пути из манифеста, которые есть в этом PR
           # jq выберет все ключи (пути модулей)
           MODULES=$(jq -r 'keys | .[]' .release-please-manifest.json)
@@ -48,27 +51,34 @@ jobs:
           for path in $MODULES; do
             # Получаем версию для этого пути
             NEW_VERSION=$(jq -r ".\"$path\"" .release-please-manifest.json)
-  
-            # Определяем путь к файлу
-            if [ "$path" == "." ]; then
-              FILE_PATH="gradle.properties"
-            else
-              FILE_PATH="$path/gradle.properties"
-            fi
-  
+          
+            # Логика определения пути
+            [ "$path" == "." ] && FILE_PATH="gradle.properties" || FILE_PATH="$path/gradle.properties"
+            echo "Checking module: $path, looking for file: $FILE_PATH"
+    
             # Обновляем только если файл существует
             if [ -f "$FILE_PATH" ]; then
-              echo "Updating $FILE_PATH to $NEW_VERSION"
+              echo "File found. Content before sed:"
+              grep "^version" "$FILE_PATH" || echo "Version line NOT FOUND in file!"
               sed -i "s/^version[[:space:]]*=.*/version=$NEW_VERSION/" "$FILE_PATH"
+              echo "Content after sed:"
+              grep "^version" "$FILE_PATH"
             else
               echo "Skipping $path: $FILE_PATH not found"
             fi
           done
-
-          # 4. Коммитим изменения в ветку PR
+          
+          # Настройка и проверка diff
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
                
+          echo "--- Git Status ---"
+          git status
+               
+          echo "--- Git Diff ---"
+          git diff
+
+          # 4. Коммитим изменения в ветку PR
           if ! git diff --exit-code; then
             git add .
             git commit -m "chore: sync gradle.properties for released modules"
