@@ -13,6 +13,11 @@ jobs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       paths_released: ${{ steps.release.outputs.paths_released }}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Скачиваем всю историю, чтобы переключаться между ветками
+
       - uses: googleapis/release-please-action@v4
         id: release
         with:
@@ -28,6 +33,10 @@ jobs:
       - name: Update gradle.properties in Release PR
         if: ${{ steps.release.outputs.pr }}
         run: |
+          # Настраиваем конфиг гита внутри раннера
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
           # 1. Переключаемся на ветку PR
           git checkout ${{ steps.release.outputs.pr_branch }}
 
