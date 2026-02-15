@@ -1,0 +1,14 @@
+# Changelog
+
+## [1.0.1](https://github.com/itarchdev/kddd/compare/fts-v1.0.0...fts-v1.0.1) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** Qqq ([d807ef6](https://github.com/itarchdev/kddd/commit/d807ef6286135b6f0ccbc1a469e6dae3bf0acc2d))
+* **fts:** Should process ci/cd steps ([5414edc](https://github.com/itarchdev/kddd/commit/5414edc09aadb0f9009a9e98b32c1b030575c34d))
+* **fts:** Should process ci/cd steps ([7b82116](https://github.com/itarchdev/kddd/commit/7b82116ae7be890a42de72ea7fb0df4fc2c6f014))
+* **fts:** Should start release action ([#11](https://github.com/itarchdev/kddd/issues/11)) ([88da6a2](https://github.com/itarchdev/kddd/commit/88da6a2dc944c6e79f7b89b077a90825ccc710ab))
+* **fts:** Test ([7a3980e](https://github.com/itarchdev/kddd/commit/7a3980eaed72d27424918ea5b5357dff197a3069))
+* **fts:** Test ([51ff8a4](https://github.com/itarchdev/kddd/commit/51ff8a4b99813985ad9081a64b87a8f7918b6141))
+* **fts:** Testing ci/cd ([#13](https://github.com/itarchdev/kddd/issues/13)) ([a3a4c3a](https://github.com/itarchdev/kddd/commit/a3a4c3aeef38f29ef47ec098332900954f911cea))
