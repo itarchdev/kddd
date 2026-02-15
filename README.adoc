@@ -23,9 +23,6 @@ link:.github/workflows/release-modules.yml[_Release Please_ workflow]:
 . `sync-to-main`: После успеха `publish`, скрипт берет актуальное состояние `dev` (уже с новыми версиями и `CHANGELOG`) и переносит его в `main`.
 . Игнорирование пустых релизов: Если вы замержите коммит без _scope_ или просто `docs:`, _Release Please_ не создаст _PR_ и публикация не запустится.
 
-=== Smoke Test
-
-
 
 == Установка
 image:https://img.shields.io/maven-central/v/ru.it-arch/k3dm[Maven Central Version]
