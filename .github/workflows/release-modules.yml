@@ -60,7 +60,6 @@ jobs:
             if [ -f "$FILE_PATH" ]; then
               echo "Updating $FILE_PATH to $NEW_VERSION"
               sed -i "s/^version[[:space:]]*=.*/version=$NEW_VERSION/" "$FILE_PATH"
-            fi
             else
               echo "Skipping $path: $FILE_PATH not found"
             fi
