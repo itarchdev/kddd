@@ -4,6 +4,7 @@
       "release-type": "simple",
       "package-name": "fts",
       "changelog-path": "CHANGELOG.md",
+      "version-file": "version.txt",
       "extra-files": ["gradle.properties"],
       "include-component-in-tag": true
     },
@@ -11,6 +12,7 @@
       "release-type": "simple",
       "package-name": "ksp-processor",
       "changelog-path": "CHANGELOG.md",
+      "version-file": "version.txt",
       "extra-files": ["gradle.properties"],
       "include-component-in-tag": true
     }
