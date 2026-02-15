@@ -30,25 +30,18 @@ jobs:
           # Auto-merge требует, чтобы в настройках репозитория была включена опция "Allow auto-merge" (Settings > General > Pull Requests).
           include-component-in-tag: true
 
-      - name: Update gradle.properties in Release PR
-        if: ${{ steps.release.outputs.pr }}
+      - name: Update gradle.properties after release
+        if: ${{ steps.release.outputs.release_created }}
         run: |
           # Настраиваем конфиг гита внутри раннера
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Переключаемся на ветку PR
-          git checkout ${{ steps.release.outputs.pr_branch }}
-          
-          echo "--- Current Manifest Content ---"
-          cat .release-please-manifest.json
-          
-          # 2. Извлекаем ВСЕ пути из манифеста, которые есть в этом PR
-          # jq выберет все ключи (пути модулей)
-          MODULES=$(jq -r 'keys | .[]' .release-please-manifest.json)
+          # 1. Получаем список путей, которые были реально выпущены
+          RELEASED_PATHS='${{ steps.release.outputs.paths_released }}'
           
           # 3. Проходим циклом по каждому пути из списка
-          for path in $MODULES; do
+          echo "$RELEASED_PATHS" | jq -r '.[]' | while read -r path; do
             # Получаем версию для этого пути
             NEW_VERSION=$(jq -r ".\"$path\"" .release-please-manifest.json)
           
@@ -60,7 +53,7 @@ jobs:
             if [ -f "$FILE_PATH" ]; then
               echo "File found. Content before sed:"
               grep "^version" "$FILE_PATH" || echo "Version line NOT FOUND in file!"
-              sed -i "s/^version[[:space:]]*=.*/version=$NEW_VERSION/" "$FILE_PATH"
+              sed -i "s/^\(version[[:space:]]*=[[:space:]]*\).*/\1$NEW_VERSION/" "$FILE_PATH"
               echo "Content after sed:"
               grep "^version" "$FILE_PATH"
             else
@@ -68,10 +61,7 @@ jobs:
             fi
           done
           
-          # Настройка и проверка diff
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-               
+          # Настройка и проверка diff               
           echo "--- Git Status ---"
           git status
                
@@ -79,12 +69,12 @@ jobs:
           git diff
 
           # 4. Коммитим изменения в ветку PR
-          if ! git diff --exit-code; then
-            git add .
-            git commit -m "chore: sync gradle.properties for released modules"
-            git push origin ${{ steps.release.outputs.pr_branch }}
+          if ! git diff --cached --exit-code; then
+            git add "$FILE_PATH"
+            git commit -m "chore: update gradle.properties after release [skip ci]"
+            git push origin ${{ github.ref_name }}          
           else
-            echo "Everything is already in sync."
+            echo "No changes to commit in gradle.properties. Everything is already in sync."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.MY_RELEASE_PAT }}
