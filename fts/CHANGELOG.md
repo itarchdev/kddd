@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.11](https://github.com/itarchdev/kddd/compare/fts-v1.0.10...fts-v1.0.11) (2026-02-15)
+
+
+### Bug Fixes
+
+* **fts:** 10 one more try by script -&gt; 1.0.11 ([c64aa42](https://github.com/itarchdev/kddd/commit/c64aa420376deef9a2d46f2637f6b8c8bfa9ea45))
+
 ## [1.0.10](https://github.com/itarchdev/kddd/compare/fts-v1.0.9...fts-v1.0.10) (2026-02-15)
 
 
