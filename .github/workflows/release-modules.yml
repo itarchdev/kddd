@@ -58,6 +58,7 @@ jobs:
           
           if [[ $PATHS == *"ksp-processor"* ]]; then
             # ./gradlew :ksp-processor:pTMC --no-configuration-cache
+            echo "fake publishing"
           fi
 
   sync-to-main:
