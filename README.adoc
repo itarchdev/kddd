@@ -57,3 +57,19 @@ $ bundle exec jekyll serve --baseurl /kddd
 ----
 
 Открыть http://localhost:4000/kddd/[http://localhost:4000/kddd/] в браузере, чтобы просмотреть документацию.
+
+==== Добавление поста в блог
+Создать файл в директории link:docs/_posts/[docs/_posts/] с именем в формате `YYYY-MM-DD-title.md`, например `2026-02-15-introduction-to-kddd.md`. Внутри файла использовать следующий шаблон:
+[source,markdown]
+----
+---
+layout: post
+title: "Заголовок поста"
+date: 2024-05-20 12:00:00 +0300
+categories: updates
+---
+
+# Заголовок!
+
+Текст поста...
+----
