@@ -14,7 +14,7 @@ exclude:
   - Gemfile.lock
 
 # Если используете кастомный домен или подпуть (например, /my-repo/)
-# baseurl: "" 
+baseurl: "/kddd/"
 # url: "https://your-user.github.io"
 
 collections:
