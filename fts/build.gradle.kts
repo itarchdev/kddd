@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.vanniktech)
+    alias(libs.plugins.dokka)
 }
 
 kotlin {
@@ -22,3 +23,9 @@ mavenPublishing {
     signAllPublications()
 }
 
+dokka {
+    dokkaPublications.configureEach {
+        // В V2 outputDirectory настраивается через публикацию
+        outputDirectory.set(rootProject.layout.projectDirectory.dir("docs/fts"))
+    }
+}

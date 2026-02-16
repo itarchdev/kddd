@@ -2,7 +2,8 @@
 # plugins
 kotlin = "2.3.10"
 javaVersion = "17"
-vanniktech ="0.36.0"
+vanniktech = "0.36.0"
+dokka = "2.1.0"
 # libs
 ktlint = "0.50.0"
 
@@ -30,3 +31,4 @@ kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 # https://vanniktech.github.io/gradle-maven-publish-plugin/central/
 vanniktech = { id = "com.vanniktech.maven.publish", version.ref = "vanniktech" }
 versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
