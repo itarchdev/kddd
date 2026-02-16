@@ -1,0 +1,23 @@
+title: "Project FTS & KSP"
+theme: just-the-docs
+
+include:
+  - fts
+  - ksp-processor
+
+# Критически важно: Jekyll не должен трогать файлы в папках с доками
+exclude:
+  - vendor/
+  - .bundle/
+  - .jekyll-cache/
+  - Gemfile
+  - Gemfile.lock
+
+# Если используете кастомный домен или подпуть (например, /my-repo/)
+# baseurl: "" 
+# url: "https://your-user.github.io"
+
+collections:
+  posts:
+    output: true
+    permalink: /blog/:title/
