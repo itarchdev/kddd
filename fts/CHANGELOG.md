@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.12](https://github.com/itarchdev/kddd/compare/fts-v1.0.11...fts-v1.0.12) (2026-02-18)
+
+
+### Bug Fixes
+
+* **fts:** Add `BuilderName` annotation. Fix comments. ([c0a019d](https://github.com/itarchdev/kddd/commit/c0a019def8765f3935d9ad8a2a47cff47bdd6ef1))
+
 ## [1.0.11](https://github.com/itarchdev/kddd/compare/fts-v1.0.10...fts-v1.0.11) (2026-02-15)
 
 
