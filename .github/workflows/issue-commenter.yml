@@ -19,7 +19,7 @@ jobs:
         with:
           script: |
             // Получаем список коммитов в этом пуше
-            const commits = ${{ JSON.stringify(github.event.commits) }};
+            const commits = context.payload.commits; 
             const issueRegex = /#([0-9]+)/g;
             const seenIssues = new Set();
 
