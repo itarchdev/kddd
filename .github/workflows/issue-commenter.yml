@@ -1,0 +1,40 @@
+name: Issue Commenter
+
+on:
+  push:
+    branches:
+      - dev  # Срабатывает только при слиянии в основную ветку
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Issue Numbers and Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Получаем список коммитов в этом пуше
+            const commits = ${{ JSON.stringify(github.event.commits) }};
+            const issueRegex = /#([0-9]+)/g;
+            const seenIssues = new Set();
+
+            for (const commit of commits) {
+              let match;
+              while ((match = issueRegex.exec(commit.message)) !== null) {
+                seenIssues.add(match[1]);
+              }
+            }
+
+            for (const issueNumber of seenIssues) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: ✅ Данное исправление/внедрение добавлено в ветку **dev**.\nКоммит: ${context.sha.substring(0, 7)}
+              });
+            }
