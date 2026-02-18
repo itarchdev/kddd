@@ -6,7 +6,7 @@ public interface Validatable {
      *
      * В случае неуспеха должен выкидывать исключение. Предполагается использование методов [require], [requireNotNull], и т.п.
      *
-     * @throws IllegalStateException
+     * @throws [IllegalStateException]
      * */
     public fun validate()
 }
